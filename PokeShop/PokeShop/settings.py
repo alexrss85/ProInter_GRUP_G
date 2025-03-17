@@ -37,11 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Cart',
+    'Catalog',
+    'Order',
+    'Payment',
     'rest_framework',
-    'catalog.apps.CatalogConfig',
-    'payment.apps.PaymentConfig',
-    'order.apps.OrderConfig',    
-    'cart.apps.CartConfig', 
 ]
 
 MIDDLEWARE = [
@@ -81,9 +81,9 @@ WSGI_APPLICATION = 'PokeShop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',  
-        'USER': 'user_postgres',  
-        'PASSWORD': 'pass_postgres',  
+        'NAME': 'pokeshop',  
+        'USER': 'admin',  
+        'PASSWORD': '1234',  
         'HOST': 'localhost',  
         'PORT': '5432',  
     }
