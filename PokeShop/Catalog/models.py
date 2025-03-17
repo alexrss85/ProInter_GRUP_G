@@ -1,5 +1,8 @@
 from django.db import models
 
+class Categoria(models.Model):
+    nom = models.CharField(max_length=50) 
+
 # Create your models here.
 class Product(models.Model):
     nom = models.CharField(max_length=50)  
@@ -7,6 +10,4 @@ class Product(models.Model):
     preu = models.IntegerField()  
     stock = models.IntegerField()  
     nom_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
-
-class Categoria(models.Model):
-    nom = models.CharField(max_length=50) 
+    rating = models.IntegerField()
