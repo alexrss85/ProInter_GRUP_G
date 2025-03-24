@@ -4,6 +4,7 @@ from django.db import models
 class Categoria(models.Model):
     nom = models.CharField(max_length=50, unique=True) 
     
+#Categoria product
 class Product(models.Model):
     nom = models.CharField(max_length=50)  
     descripcio = models.CharField(max_length=50) 
