@@ -1,6 +1,6 @@
 from django.db import models
 
-#Categoria
+#Categoria model
 class Categoria(models.Model):
     nom = models.CharField(max_length=50, unique=True) 
     
