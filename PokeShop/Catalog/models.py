@@ -4,6 +4,9 @@ class Categoria(models.Model):
     nom = models.CharField(max_length=50, unique=True) 
 
 # Create your models here.
+class Categoria(models.Model):
+    nom = models.CharField(max_length=50) 
+    
 class Product(models.Model):
     nom = models.CharField(max_length=50)  
     descripcio = models.CharField(max_length=50) 
