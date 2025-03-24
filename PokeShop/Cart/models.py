@@ -2,6 +2,7 @@ from django.db import models
 from Catalog.models import Product
 
 class User(models.Model):
+    roles = [('usuario','Usuario'),('admin','Admin')]
     username = models.CharField(max_length=50)  
     email = models.EmailField(max_length=50) 
     password = models.CharField(max_length=50)

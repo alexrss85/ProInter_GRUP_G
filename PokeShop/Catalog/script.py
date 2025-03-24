@@ -2,23 +2,17 @@ import os
 import django
 import pandas as pd
 
-# Setup Django before using models
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "PokeShop.settings")  # Change "PokeShop" to your project name
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "PokeShop.settings")
 django.setup()
 
-from Catalog.models import Product  # Import after django.setup()
-
+from Catalog.models import Product, Categoria
 
 def load_csv():
-    df = pd.read_csv('PokeShop/Catalog/Product.csv', usecols=['id', 'name', 'description', 'price', 'category_name'])
+    df = pd.read_csv('Catalog/Category.csv', usecols=['id', 'name'])
     
     for _, row in df.iterrows():
-        Product.objects.create(
-            id=row['id'],
-            name=row['name'],
-            description=row['description'],
-            price=row['price'],
-            category_name=row['category_name']
+        Categoria.objects.create(
+            nom=row['name']
         )
     
     print("Dades carregades amb èxit!")

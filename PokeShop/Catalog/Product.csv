@@ -1,4 +1,4 @@
-id,name,description,price,category_name
-1,Pikachu Plushie,Soft and cuddly Pikachu plush,19.99,Plushies
-2,Pokemon Trading Cards,Booster pack with 10 random cards,4.99,Cards
-3,Charizard Figurine,High-quality Charizard figurine for collectors,29.99,Figurines
+id,name,description,price,stock,category_name,rating
+1,Pikachu Plushie,Soft and cuddly Pikachu plush,19.99,11,Plushies,5
+2,Pokemon Trading Cards,Booster pack with 10 random cards,4.99,50,Cards,4
+3,Charizard Figurine,High-quality Charizard figurine for collectors,29.99,2,Figurines,4
