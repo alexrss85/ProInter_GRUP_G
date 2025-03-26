@@ -1,14 +1,11 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Categoria
-from .serializers import CategoriaSerializer
+from .models import Categoria, Product
+from .serializers import CategoriaSerializer, ProductSerializer
+from rest_framework import status
 
 # Create your views here.
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from Catalog.models import Categoria, Product
-from Catalog.serializers import CategoriaSerializer, ProductSerializer
 
 @api_view(['GET'])
 def getProductos(request):
@@ -52,6 +49,7 @@ def deleteProducto(request, pk):
         
     product.delete()
     return Response({"message": "Product deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
 @api_view(['POST'])
 def create_categoria(request):
     serializer = CategoriaSerializer(data=request.data)
@@ -81,9 +79,10 @@ def update_categoria(request, pk):
 
 @api_view(['DELETE'])
 def delete_categoria(request, pk):
-    try:
-        categoria = Categoria.objects.get(pk=pk) 
-        categoria.delete()
-        return Response(status=204)  
-    except Categoria.DoesNotExist:
-        return Response({'detail': 'Categoria no encontrada.'}, status=404)
+    categoria = Categoria.objects.filter(pk=pk).first()
+    
+    if not categoria:
+        return Response({"error": "Categoria no encontrada"}, status=status.HTTP_404_NOT_FOUND)
+    
+    categoria.delete()
+    return Response({"message": "Categoria eliminada correctamente"}, status=status.HTTP_204_NO_CONTENT)
