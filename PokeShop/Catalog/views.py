@@ -43,6 +43,6 @@ def deleteProducto(request, pk):
     product = Product.objects.filter(pk=pk).first()
     if not product:
         return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
-        
+
     product.delete()
     return Response({"message": "Product deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
