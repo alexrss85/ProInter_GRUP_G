@@ -3,7 +3,7 @@ from Cart.models import User
 from Catalog.models import Product
 
 class Order(models.Model):
-    preu_total = models.IntegerField(max_length=50)  
+    preu_total = models.IntegerField()  
     estat = models.CharField(max_length=50) 
     id_usuari = models.ForeignKey(User, on_delete=models.CASCADE)  
 
