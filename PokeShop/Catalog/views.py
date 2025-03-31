@@ -86,3 +86,13 @@ def delete_categoria(request, pk):
     
     categoria.delete()
     return Response({"message": "Categoria eliminada correctamente"}, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+def getProductosByCategoria(request, nom_categoria):
+    products = Product.objects.filter(nom_categoria__nom=nom_categoria)
+    
+    if not products.exists():
+        return Response({"error": "No products found for this category"}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
