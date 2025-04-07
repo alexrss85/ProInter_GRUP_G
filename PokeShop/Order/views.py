@@ -39,11 +39,73 @@ def addCartItemsToOrder(request):
 
     total_price = 0
     for item in cart_items:
-        ItemOrder.objects.create(order_id=order, product_id=item.product_id, quantity=item.quantity)
+        item_order = ItemOrder.objects.create(
+            order_id=order, 
+            product_id=item.product_id, 
+            quantity=item.quantity
+        )
         total_price += item.product_id.preu * item.quantity
 
     order.preu_total = total_price
     order.save()
 
     serializer = OrderSerializer(order)
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+    item_order_serializer = ItemOrderSerializer(order.itemorder_set.all(), many=True)
+
+    return Response({
+        "order": order_serializer.data,
+        "items": item_order_serializer.data
+    }, status=status.HTTP_201_CREATED)
+
+@api_view(['DELETE'])
+def deleteItemOrder(request, itemorder_id):
+    item_order = ItemOrder.objects.filter(id=itemorder_id).first()
+
+    if not item_order:
+        return Response({"error": "Item not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    item_order.delete()
+    return Response({"message": "Item deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['DELETE'])
+def deleteOrder(request, order_id):
+    order = Order.objects.filter(id=order_id).first()
+
+    if not order:
+        return Response({"error": "Order not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    order.itemorder_set.all().delete() # Esborrem els ItemOrders que perteneixen al Order
+
+    order.delete() # Esborrem el Order
+    return Response({"message": "Order and its items deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['PATCH'])
+def updateItemOrderQuantity(request, order_id, itemorder_id):
+
+    # Agafem l'item del ordre per id
+    item_order = ItemOrder.objects.filter(id=itemorder_id, order_id=order_id).first()
+    if not item_order:
+        return Response({"error": "ItemOrder not found for this order."}, status=404)
+
+    # Modifiquem l'atribut quantitat
+    new_quantity = request.data.get('quantity')
+
+    if not new_quantity or new_quantity <= 0:
+        return Response({"error": "Quantity must be greater than 0."}, status=status.HTTP_400_BAD_REQUEST)
+
+    item_order.quantity = new_quantity
+    item_order.save()
+
+    # Actualitzem el preu total de l'ordre
+    order = item_order.order_id
+    item_orders = order.itemorder_set.all()
+    total_price = sum(item.quantity * item.product_id.preu for item in item_orders)
+
+    order.preu_total = total_price
+    order.save()
+
+    return Response({
+        "message": "Item quantity and order total updated successfully.",
+        "new_quantity": item_order.quantity,
+        "new_total_price": order.preu_total
+    })
