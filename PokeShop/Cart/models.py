@@ -6,8 +6,7 @@ class User(models.Model):
     username = models.CharField(max_length=50)  
     email = models.EmailField(max_length=50) 
     password = models.CharField(max_length=50)
-    rol = models.CharField(max_length=20, choices=roles, default='Pendent')
-
+    rol = models.CharField(max_length=20, choices=roles, default='Usuario')
 
 class Carrito(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)  
