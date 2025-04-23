@@ -4,7 +4,7 @@ from Cart.models import User
 
 # Create your models here.
 class Payment(models.Model):
-    ESTATS = [('pendent','Pendent'),('completat','Completat'),('fallit','Fallit')]  
+    ESTATS = [('pendent','Pendent'),('completat','Completat'),('fallit','Fallit')]   
     num_tarjeta = models.CharField(max_length=16)
     data_caducitat = models.DateField()
     cvc = models.CharField(max_length=3)
