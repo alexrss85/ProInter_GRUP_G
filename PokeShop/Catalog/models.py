@@ -12,3 +12,4 @@ class Product(models.Model):
     stock = models.IntegerField()  
     nom_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, to_field='nom')
     rating = models.IntegerField()
+    img = models.CharField()  
