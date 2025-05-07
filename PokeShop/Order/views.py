@@ -8,7 +8,7 @@ from rest_framework import status
 
 @api_view(['GET'])
 def getOrdersByUser(request, user_id):
-    orders = Order.objects.filter(id_usuari_id=user_id)
+    orders = Order.objects.filter(user_id=user_id)
 
     if not orders.exists():
         return Response({"error": "No orders found for this user."}, status=status.HTTP_404_NOT_FOUND)
@@ -49,7 +49,7 @@ def addCartItemsToOrder(request):
     order.preu_total = total_price
     order.save()
 
-    serializer = OrderSerializer(order)
+    order_serializer = OrderSerializer(order)
     item_order_serializer = ItemOrderSerializer(order.itemorder_set.all(), many=True)
 
     return Response({
