@@ -122,3 +122,19 @@ def deleteUser(request, pk):
         return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
     user.delete()
     return Response({"message": "User deleted successfully"})
+
+@api_view(['POST'])
+def loginUser(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+    if user.password == password:
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
