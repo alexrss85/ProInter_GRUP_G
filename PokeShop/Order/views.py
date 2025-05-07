@@ -49,7 +49,7 @@ def addCartItemsToOrder(request):
     order.preu_total = total_price
     order.save()
 
-    serializer = OrderSerializer(order)
+    order_serializer = OrderSerializer(order)
     item_order_serializer = ItemOrderSerializer(order.itemorder_set.all(), many=True)
 
     return Response({

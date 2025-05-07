@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'Order',
     'Payment',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +53,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
 ]
 
 ROOT_URLCONF = 'PokeShop.urls'
@@ -81,11 +87,11 @@ WSGI_APPLICATION = 'PokeShop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pokeshop',  
-        'USER': 'admin',  
-        'PASSWORD': '1234',  
-        'HOST': 'localhost',  
-        'PORT': '5432',  
+        'NAME': 'pokeshop',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
