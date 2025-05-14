@@ -57,11 +57,17 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
+<<<<<<< HEAD
     'http://localhost:5173',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+=======
+    "http://localhost:5173",
+]
+
+>>>>>>> 697f10746b0635bce56470e9ee8e181ce12a694a
 
 ROOT_URLCONF = 'PokeShop.urls'
 
