@@ -109,3 +109,40 @@ def updateItemOrderQuantity(request, order_id, itemorder_id):
         "new_quantity": item_order.quantity,
         "new_total_price": order.preu_total
     })
+
+@api_view(['PATCH'])
+def updateOrderStatus(request, order_id):
+    order = Order.objects.filter(id=order_id).first()
+
+    if not order:
+        return Response({"error": "Order not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    new_status = request.data.get('status')
+    if not new_status:
+        return Response({"error": "Status field is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+    order.estat = new_status
+    order.save()
+
+    serializer = OrderSerializer(order)
+    return Response({
+        "message": "Order status updated successfully.",
+        "order": serializer.data
+    }, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def getOrderByUserAndOrderId(request, user_id, order_id):
+    order = Order.objects.filter(id=order_id, user_id=user_id).first()
+
+    if not order:
+        return Response({"error": "Order not found for this user."}, status=status.HTTP_404_NOT_FOUND)
+
+    order_serializer = OrderSerializer(order)
+    item_order_serializer = ItemOrderSerializer(order.itemorder_set.all(), many=True)
+
+    return Response({
+        "order": order_serializer.data,
+        "items": item_order_serializer.data
+    }, status=status.HTTP_200_OK)
+
