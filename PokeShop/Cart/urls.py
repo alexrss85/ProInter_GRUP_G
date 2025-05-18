@@ -1,11 +1,12 @@
 from django.urls import path
-from Cart.views import createCarrito, listCarritos, getCarrito, deleteCarrito, createItemCarrito, listItemsCarrito, getItemCarrito, updateItemCarrito, deleteItemCarrito, getUsers, getUser, createUser, updateUser, deleteUser, loginUser
+from Cart.views import createCarrito, listCarritos, getCarrito, deleteCarrito, createItemCarrito, listItemsCarrito, getItemCarrito, updateItemCarrito, deleteItemCarrito, getUsers, getUser, createUser, updateUser, deleteUser, loginUser, getCarritoByUsuario
 
 urlpatterns = [
     path('carritos/', listCarritos, name='list-carritos'),
     path('carritos/create/', createCarrito, name='create-carrito'),
     path('carritos/<int:pk>/', getCarrito, name='get-carrito'),
     path('carritos/delete/<int:pk>/', deleteCarrito, name='delete-carrito'),
+    path('carritos/usuario/<int:user_id>/', getCarritoByUsuario, name='get-carrito-by-user'), 
     path('item-carrito/', listItemsCarrito, name='list-items-carrito'),
     path('item-carrito/create/', createItemCarrito, name='create-item-carrito'),
     path('item-carrito/<int:pk>/', getItemCarrito, name='get-item-carrito'),

@@ -29,6 +29,24 @@ def getCarrito(request, pk):
     serializer = CarritoSerializer(carrito)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def getCarritoByUsuario(request, user_id):
+    try:
+        carrito = Carrito.objects.filter(user_id__id=user_id).order_by('-created_at').first()
+        if not carrito:
+            return Response({"error": "No se encontró un carrito para este usuario"}, status=status.HTTP_404_NOT_FOUND)
+
+        items = ItemCarrito.objects.filter(cart_id=carrito.id)
+        items_serializer = ItemCarritoSerializer(items, many=True)
+        carrito_serializer = CarritoSerializer(carrito)
+
+        return Response({
+            "carrito": carrito_serializer.data,
+            "items": items_serializer.data
+        })
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 @api_view(['DELETE'])
 def deleteCarrito(request, pk):
     carrito = Carrito.objects.filter(pk=pk).first()
@@ -125,11 +143,11 @@ def deleteUser(request, pk):
 
 @api_view(['POST'])
 def loginUser(request):
-    username = request.data.get('username')
+    email = request.data.get('email')
     password = request.data.get('password')
 
     try:
-        user = User.objects.get(username=username)
+        user = User.objects.get(email=email)
     except User.DoesNotExist:
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
