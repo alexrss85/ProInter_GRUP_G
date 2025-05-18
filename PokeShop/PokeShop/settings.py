@@ -88,11 +88,11 @@ WSGI_APPLICATION = 'PokeShop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pokeshop',  
-        'USER': 'admin',  
-        'PASSWORD': '1234',  
-        'HOST': 'localhost',  
-        'PORT': '5432',  
+        'NAME': 'pokeshop',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
