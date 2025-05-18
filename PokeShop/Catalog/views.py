@@ -29,17 +29,18 @@ def createProducto(request):
         serializer.save()
     return Response(serializer.data)
 
-@api_view(['PUT'])
+@api_view(['PUT', 'PATCH'])
 def updateProducto(request, pk):
     product = Product.objects.filter(pk=pk).first()
     if not product:
         return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
 
-    serializer = ProductSerializer(product, data=request.data)
+    serializer = ProductSerializer(product, data=request.data, partial=(request.method == 'PATCH'))
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['DELETE'])
 def deleteProducto(request, pk):
@@ -90,9 +91,6 @@ def delete_categoria(request, pk):
 @api_view(['GET'])
 def getProductosByCategoria(request, nom_categoria):
     products = Product.objects.filter(nom_categoria__nom=nom_categoria)
-    
-    if not products.exists():
-        return Response({"error": "No products found for this category"}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)

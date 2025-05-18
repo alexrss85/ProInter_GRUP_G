@@ -153,6 +153,9 @@ def loginUser(request):
 
     if user.password == password:
         serializer = UserSerializer(user)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response({'id': serializer.data['id'], 
+                        'username': serializer.data['username'],
+                        'email': serializer.data['email'],
+                        'rol': serializer.data['rol']}, status=status.HTTP_200_OK)
     else:
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
